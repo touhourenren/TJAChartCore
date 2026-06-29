@@ -12,81 +12,6 @@ namespace TaikoNauts.Core.Taiko.Charts
 {
     public sealed class TjaChartReader
     {
-        private bool _isParsing = false;
-        private int _nowCourse = 0;
-        private double _nowTime = 0;
-        private double _nowTimeForHBScroll = 0;
-        private double _nowBpm = 0;
-        private Complex _nowScroll = 1.0;
-        private double _nowMeasure = 1.0;
-        private bool _nowBarVisible = true;
-        private bool _nowGoGo = false;
-        private bool _nowHBScroll = false;
-
-        private double _bpmBeforeBranch = 0;
-        private Complex _scrollBeforeBranch = 1.0;
-        private double _measureBeforeBranch = 1.0;
-        private bool _barVisibleBeforeBranch = true;
-        private bool _goGoBeforeBranch = false;
-
-        private int _nowBalloonCount;
-        private int[] _nowBranchBalloonCount = new int[3];
-        private List<int> _commonBalloon;
-        private Branch _nowBranch;
-        private RollType _nowRollType;
-        private Chip[] _nowRollStartNote = new Chip[3];
-        private Chip _measureFirstNote;
-        private List<Chip> _nowMeasureChips;
-        private List<Command> _nowMeasureCommands;
-        private int _nowBranchCount = -1;
-        private double _branchChangeTime = 0;
-        private double _nowBranchStartTime = 0;
-        private bool _isNowProcessingBranch = false;
-        private bool _isNowSearchingRollEnd = false;
-        private Branch _nowProcessingBranch = Branch.Normal;
-        private bool _isUsingCommonBallonValue = false;
-
-        private double _suddenShowTime = 0;
-        private double _suddenMoveTime = 0;
-
-        private double ParseParameter(string str, double defaultVal)
-        {
-            if (str.StartsWith("inf"))
-                return double.PositiveInfinity;
-
-            double ret = 0;
-            bool isParsed = double.TryParse(str, out ret);
-
-            return isParsed ? ret : defaultVal;
-        }
-
-        public int GetCourseFromData(string data)
-        {
-            string[] courses = { "easy", "normal", "hard", "oni", "edit" };
-            int ret = 0;
-            var result = 0;
-
-            if (!int.TryParse(data, out result))
-            {
-                data = data.Trim().ToLower();
-
-                for (int i = 0; i < 5; i++)
-                {
-                    if (courses[i] == data)
-                    {
-                        ret = i;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                ret = result;
-            }
-
-            return ret;
-        }
-
         public enum LoadType
         {
             Normal,
@@ -898,6 +823,81 @@ namespace TaikoNauts.Core.Taiko.Charts
             return song;
         }
 
+        private bool _isParsing = false;
+        private int _nowCourse = 0;
+        private double _nowTime = 0;
+        private double _nowTimeForHBScroll = 0;
+        private double _nowBpm = 0;
+        private Complex _nowScroll = 1.0;
+        private double _nowMeasure = 1.0;
+        private bool _nowBarVisible = true;
+        private bool _nowGoGo = false;
+        private bool _nowHBScroll = false;
+
+        private double _bpmBeforeBranch = 0;
+        private Complex _scrollBeforeBranch = 1.0;
+        private double _measureBeforeBranch = 1.0;
+        private bool _barVisibleBeforeBranch = true;
+        private bool _goGoBeforeBranch = false;
+
+        private int _nowBalloonCount;
+        private int[] _nowBranchBalloonCount = new int[3];
+        private List<int> _commonBalloon;
+        private Branch _nowBranch;
+        private RollType _nowRollType;
+        private Chip[] _nowRollStartNote = new Chip[3];
+        private Chip _measureFirstNote;
+        private List<Chip> _nowMeasureChips;
+        private List<Command> _nowMeasureCommands;
+        private int _nowBranchCount = -1;
+        private double _branchChangeTime = 0;
+        private double _nowBranchStartTime = 0;
+        private bool _isNowProcessingBranch = false;
+        private bool _isNowSearchingRollEnd = false;
+        private Branch _nowProcessingBranch = Branch.Normal;
+        private bool _isUsingCommonBallonValue = false;
+
+        private double _suddenShowTime = 0;
+        private double _suddenMoveTime = 0;
+
+        private double ParseParameter(string str, double defaultVal)
+        {
+            if (str.StartsWith("inf"))
+                return double.PositiveInfinity;
+
+            double ret = 0;
+            bool isParsed = double.TryParse(str, out ret);
+
+            return isParsed ? ret : defaultVal;
+        }
+
+        private int GetCourseFromData(string data)
+        {
+            string[] courses = { "easy", "normal", "hard", "oni", "edit" };
+            int ret = 0;
+            var result = 0;
+
+            if (!int.TryParse(data, out result))
+            {
+                data = data.Trim().ToLower();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    if (courses[i] == data)
+                    {
+                        ret = i;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                ret = result;
+            }
+
+            return ret;
+        }
+
         private void ProcessMeasure(Song song)
         {
             Chip measure = new Chip();
@@ -1061,7 +1061,7 @@ namespace TaikoNauts.Core.Taiko.Charts
                         {
                             // ロール終了は、現在処理中のコンテキスト内の開始ノーツにのみ付ける
                             int rollStartIndex = _isNowProcessingBranch ? (int)_nowProcessingBranch : 0;
-                            
+
                             if (_nowRollStartNote[rollStartIndex] != null)
                             {
                                 _nowRollStartNote[rollStartIndex]._rollEnd = chiplist[chiplist.Count - 1];
@@ -1147,5 +1147,6 @@ namespace TaikoNauts.Core.Taiko.Charts
                 song._songCourses[_nowCourse]._chips.Add(measure);
             }
         }
+
     }
 }
