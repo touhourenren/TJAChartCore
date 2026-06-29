@@ -33,7 +33,7 @@ Song songData = parser.GetSongDataFromTja(songPath, loadType);
   - その他各種ノート情報(詳しくは`TJAChartCore/Charts/Models/Chip.cs`をご覧ください。)
 
 ### 判定関連
-- `Judgement`クラス `TJAChartCore/Judgement/Judgement.cs`
+- `Judgement`クラス `TJAChartCore/Enso/Judgement/Judgement.cs`
   - `GetNearestChip(time, startIndex, chips, course, don)`関数
     - `time`ミリ秒を基準に、`startIndex`番目から最も近いノーツを検索します。
     - 返すノートの判定基準は以下の通りです。
