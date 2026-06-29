@@ -327,7 +327,7 @@ namespace TaikoNauts.Core.Taiko.Charts
                         }
                         else if (line.StartsWith("#BRANCHSTART", StringComparison.Ordinal))
                         {
-                            song._songCourses[_nowCourse]._isBranching = true;
+                            song._songCourses[_nowCourse]._hasBranch = true;
                         }
                     }
                     else
@@ -405,7 +405,7 @@ namespace TaikoNauts.Core.Taiko.Charts
                                                 _nowBalloonCount++;
                                             }
                                         }
-                                        else if (song._songCourses[_nowCourse]._isBranching)
+                                        else if (song._songCourses[_nowCourse]._hasBranch)
                                         {
                                             switch (_nowProcessingBranch)
                                             {
@@ -482,7 +482,7 @@ namespace TaikoNauts.Core.Taiko.Charts
 
                                 song._songCourses[_nowCourse]._chips?.RemoveAll(x => x._noteType == NoteType.None);
 
-                                if (song._songCourses[_nowCourse]._isBranching)
+                                if (song._songCourses[_nowCourse]._hasBranch)
                                 {
                                     song._songCourses[_nowCourse]._chipsNormal?.RemoveAll(x => x._noteType == NoteType.None);
                                     song._songCourses[_nowCourse]._chipsExpert?.RemoveAll(x => x._noteType == NoteType.None);
@@ -668,7 +668,7 @@ namespace TaikoNauts.Core.Taiko.Charts
                                 #region [ BRANCHSTART ]
 
                                 parameter = line.Remove(0, 12).Replace(" ", "");
-                                song._songCourses[_nowCourse]._isBranching = true;
+                                song._songCourses[_nowCourse]._hasBranch = true;
 
                                 this._nowBranchStartTime = _nowTime;
 

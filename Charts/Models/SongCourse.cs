@@ -5,7 +5,7 @@ namespace TaikoNauts.Core.Taiko.Charts;
 public sealed class SongCourse
 {
     public int _level { get; set; }
-    public bool _isBranching { get; set; }
+    public bool _hasBranch { get; set; }
     public List<int> _balloon { get; set; } = new();
     public List<int> _balloonNormal { get; set; } = new();
     public List<int> _balloonExpert { get; set; } = new();
