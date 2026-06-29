@@ -2,7 +2,7 @@ using TaikoNauts.Core.Taiko.Charts;
 
 namespace TaikoNauts.Core.Taiko.Enso.Judgement;
 
-public sealed class Judgement
+public static class Judgement
 {
     /// <summary>
     /// Get the nearest chip based on the current time and the list of chips.
@@ -13,7 +13,7 @@ public sealed class Judgement
     /// <param name="course">The course index.</param>
     /// <param name="don">Indicates if the chip is a "don" type.</param>
     /// <returns>The nearest chip, or null if none is found.</returns>
-    public Chip? GetNearestChip(double time, int startIndex, IReadOnlyList<Chip> chips, int course, bool don)
+    public static Chip? GetNearestChip(double time, int startIndex, IReadOnlyList<Chip> chips, bool don)
     {
         Chip? nearestchip = new Chip();
         var count = chips.Count;
@@ -66,7 +66,7 @@ public sealed class Judgement
                 {
                     if (don ? IsDon(processingChip) : IsKa(processingChip))
                     {
-                        var processingChipJudge = GetJudgeFromTime(time, processingChip, course, true);
+                        var processingChipJudge = GetJudgeFromTime(time, processingChip, true);
 
                         if (processingChipJudge != NoteJudge.Miss)
                         {
@@ -101,7 +101,7 @@ public sealed class Judgement
                 {
                     if (don ? IsDon(processingChip) : IsKa(processingChip))
                     {
-                        var processingChipJudge = GetJudgeFromTime(time, processingChip, course, true);
+                        var processingChipJudge = GetJudgeFromTime(time, processingChip, true);
 
                         if (processingChipJudge != NoteJudge.Miss)
                         {
@@ -143,11 +143,10 @@ public sealed class Judgement
     /// </summary>
     /// <param name="time">The current time.</param>
     /// <param name="chip">The chip to judge.</param>
-    /// <param name="course">The course index.</param>
     /// <param name="debug">Indicates if debug information should be displayed.</param>
     /// <returns>The judgment result.</returns>
     /// <returns></returns>
-    public NoteJudge GetJudgeFromTime(double time, Chip? chip, int course, bool debug = false)
+    public static NoteJudge GetJudgeFromTime(double time, Chip? chip, bool debug = false)
     {
         var ret = NoteJudge.Miss;
 
@@ -192,7 +191,7 @@ public sealed class Judgement
     /// <param name="good">The number of good judgments.</param>
     /// <param name="miss">The number of miss judgments.</param>
     /// <returns>The accuracy percentage.</returns>
-    public double GetAccuracy(int perfect, int good, int miss)
+    public static double GetAccuracy(int perfect, int good, int miss)
     {
         var total = perfect + good + miss;
         return total == 0 ? 0 : (perfect + good * 0.5) / total * 100.0;
